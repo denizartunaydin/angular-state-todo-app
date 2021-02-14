@@ -1,0 +1,100 @@
+<div class="p-d-flex p-jc-center screen-center">
+  <p-card>
+    <div class="p-mr-12" style="width: 600px">
+      <div class="p-inputgroup">
+        <input type="text" pInputText placeholder="Search Todo..." />
+        <button
+          type="button"
+          pButton
+          pRipple
+          (click)="showDialog()"
+          icon="pi pi-plus"
+          styleClass="p-button-warn"
+        ></button>
+      </div>
+
+      <div style="margin-top: 20px">
+        <p-table [value]="todos$ | async">
+          <ng-template pTemplate="header">
+            <tr>
+              <th width="480px">Title</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-todo>
+            <tr>
+              <td>{{ todo.title }}</td>
+
+              <td>
+                <button
+                  pButton
+                  type="button"
+                  label=""
+                  class="p-button-primary"
+                  icon="pi pi-pencil"
+                  (click)="selectItem(todo)"
+                ></button>
+
+                <button
+                  style="margin-left: 10px"
+                  pButton
+                  type="button"
+                  label=""
+                  class="p-button-danger"
+                  icon="pi pi-trash"
+                  (click)="deleteTodo(todo.id)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-card>
+</div>
+
+<p-dialog
+  header="Add Todo"
+  [(visible)]="showMode"
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+>
+  <form *ngIf="form" (ngSubmit)="addTodo()" [formGroup]="form">
+    <div class="p-fluid">
+      <div class="p-field p-grid">
+        <label for="firstname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+          >Title</label
+        >
+        <div class="p-col-12 p-md-10">
+          <input
+            id="firstname"
+            type="text"
+            pInputText
+            formControlName="title"
+          />
+        </div>
+      </div>
+      <div class="p-field p-grid">
+        <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+          >Description</label
+        >
+        <div class="p-col-12 p-md-10">
+          <textarea
+            pInputTextarea
+            [rows]="5"
+            formControlName="description"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="p-d-flex p-jc-end">
+      <button
+        pButton
+        icon="pi pi-plus"
+        type="submit"
+        label="Save Todo"
+        class="p-button"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
